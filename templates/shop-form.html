@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+<script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
+<script src="https://js.stripe.com/v3/"></script> 
+
+    <div id="all">
+
+      <div id="heading-breadcrumbs">
+        <div class="container">
+          <div class="row d-flex align-items-center flex-wrap">
+            <div class="col-md-7">
+              <h1 class="h2">Checkout - Payment Mehod</h1>
+            </div>
+            <div class="col-md-5">
+              <ul class="breadcrumb d-flex justify-content-end">
+                <li class="breadcrumb-item"><a href="{% url 'shop:home' %}">Home</a></li>
+                <li class="breadcrumb-item active">Checkout - Payment Mehod</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="content">
+        <div class="container">
+          <div class="row">
+            <div id="checkout" class="col-lg-9">
+              <div class="box">
+                <form method="POST">
+                  {% csrf_token %}
+                  <ul class="nav nav-pills nav-fill">
+                    
+                    <li class="nav-item"><a href="{% url 'shop:payment' %}" class="nav-link"><i class="fa fa-money"></i><br>Payment Method</a></li>
+                    <li class="nav-item"><a href="{% url 'shop:form' %}" class="nav-link active"><i class="fa fa-eye"></i><br>Address Form</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link disabled"><i class="fa fa-eye"></i><br>Order Review</a></li>
+                  </ul>
+                  <div class="content">
+                    <div class="row">
+                         
+                            {{form|crispy}}
+                           
+
+                          
+                    </div>
+                  </div>
+                  <div class="box-footer d-flex flex-wrap align-items-center justify-content-between">
+                   
+                    <div class="left-col"><a href="{% url 'shop:payment' %}" class="btn btn-secondary mt-0"><i class="fa fa-chevron-left"></i>Back to Payment Method</a></div>
+                    <div class="right-col">
+                      <button type="submit" class="btn btn-template-main">Review order<i class="fa fa-chevron-right"></i></button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div class="col-lg-3">
+              <div id="order-summary" class="box mb-4 p-0">
+                <div class="box-header mt-0">
+                  <h3>Order summary</h3>
+                </div>
+                <p class="text-muted text-small">Shipping and additional costs are calculated based on the values you have entered.</p>
+                <div class="table-responsive">
+                  <table class="table">
+                    <tbody>
+                      <tr>
+                        <td>Order subtotal</td>
+                        <th>EGP {{orders.get_order_items}}</th>
+                      </tr>
+                      <tr>
+                        <td>Shipping and handling</td>
+                        <th>EGP 0.00</th>
+                      </tr>
+                      <tr>
+                        <td>Coupon</td>
+                        <th>
+                          {% if orders.coupon %}
+                          -EGP {{orders.coupon.price}}
+                          {% else %}
+                          -EGP 0
+                          {% endif %}
+                        </th>
+                     
+                      </tr>
+                      <tr class="total">
+                        <td>Total</td>
+                      <th>EGP {{orders.get_total_price}}</th>
+                      
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+   
+    
+
+{% endblock %}

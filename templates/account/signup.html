@@ -1,0 +1,167 @@
+
+{% extends 'account/base.html' %}
+{% load crispy_forms_tags %}
+{% load socialaccount %}
+{% block content %}
+<style type="text/css">
+  :root {
+    --input-padding-x: 1.5rem;
+    --input-padding-y: .75rem
+}
+
+body {
+   
+}
+
+.card-signin {
+    border: 0;
+    border-radius: 0rem;
+    box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1)
+}
+
+.card-signin .card-title {
+    margin-bottom: 2rem;
+    font-weight: 300;
+    font-size: 1.5rem
+}
+
+.card-signin .card-body {
+    padding: 2rem
+}
+
+.form-signin {
+    width: 100%
+}
+
+.form-signin .btn {
+    font-size: 80%;
+    border-radius: 0rem;
+    letter-spacing: .1rem;
+    font-weight: bold;
+    padding: 1rem;
+    transition: all 0.2s
+}
+
+.form-label-group {
+    position: relative;
+    margin-bottom: 1rem
+}
+
+.form-label-group input {
+    height: auto
+}
+
+.form-label-group>input,
+.form-label-group>label {
+    padding: var(--input-padding-y) var(--input-padding-x)
+}
+
+.form-label-group>label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    margin-bottom: 0;
+    line-height: 1.5;
+    color: #495057;
+    border: 1px solid transparent;
+    border-radius: .25rem;
+    transition: all .1s ease-in-out
+}
+
+.form-control:focus {
+    box-shadow: 10px 0px 0px 0px #ffffff !important
+}
+
+.btn-google {
+    color: white;
+    background-color: #ea4335
+}
+
+.btn-facebook {
+    color: white;
+    background-color: #3b5998
+}
+</style>
+  <body>
+    <div id="all">
+      <div id="heading-breadcrumbs">
+        <div class="container">
+          <div class="row d-flex align-items-center flex-wrap">
+            <div class="col-md-7">
+              <h1 class="h2">New Account / Sign Up</h1>
+            </div>
+            <div class="col-md-5">
+              <ul class="breadcrumb d-flex justify-content-end">
+                <li class="breadcrumb-item"><a href="{% url 'shop:home' %}">Home</a></li>
+                <li class="breadcrumb-item active">New Account / Sign Up</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="content">
+        <div class="container">
+          <div class="row">
+            <div class="col col-lg-12 col-sm-12">
+              <div class="box">
+                <h2 class="text-uppercase">New account</h2>
+                <p class="lead">Not our registered customer yet?</p>
+                <p>With registration with us new world of fashion, fantastic discounts and much more opens to you! The whole process will not take you more than a minute!</p>
+                <p class="text-muted">If you have any questions, please feel free to <a href="{% url 'shop:contact' %}">contact us</a>, our customer service center is working for you 24/7.</p>
+                <hr>
+                <form method="POST" action="{% url 'account_signup' %}">
+                  {% csrf_token %}
+                  {{form|crispy}}
+                  <div class="text-center">
+                   <button type="submit" class="btn btn-template-outlined"><i class="fa fa-user-md"></i> Register</button>
+                 </div>
+                 <hr class="my-4">
+                 <a href="{%  provider_login_url 'google'  %}" class="btn btn-lg btn-google btn-block text-uppercase" ><i class="fab fa-google mr-2"></i> Resgiser with Google</a>
+              <a href="{%  provider_login_url 'facebook'  %}" class="btn btn-lg btn-facebook btn-block text-uppercase"><i class="fab fa-facebook-f mr-2"></i> Register with Facebook</a>
+                </form>
+                <p class="text-center text-muted">already our customer ?</p>
+                <p class="text-center text-muted"><a href="{% url 'account_login' %}"><strong>signin now</strong></a>! It is easy and done in 1 minute and gives you access to special discounts and much more!</p>
+              </div>
+    
+            </div>
+            <!-- <div class="col-lg-6">
+              <div class="box">
+                <h2 class="text-uppercase">Login</h2>
+                <p class="lead">Already our customer?</p>
+                <p class="text-muted">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
+                <hr>
+          
+                <form class="login" method="POST" action="{% url 'account_login' %}">
+                 
+                  {% csrf_token %}
+                 <div class="form-label-group"> <input type="text" name="login" id="inputEmail" class="form-control" placeholder="Username"  autofocus>  </div>
+                  <div class="form-label-group"> <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" > </div>
+            
+                  {% if redirect_field_value %}
+                  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                  {% endif %}
+                  <div class="custom-control custom-checkbox mb-3"> <input name="remember" type="checkbox" class="custom-control-input" id="customCheck1"> <label class="custom-control-label" for="customCheck1">Remember password?</label> </div> 
+                  <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign in</button>
+                  <hr class="my-4">
+                   <a href="{%  provider_login_url 'google'  %}" class="btn btn-lg btn-google btn-block text-uppercase" type="submit"><i class="fab fa-google mr-2"></i> Sign in with Google</a>
+                  <a   href="{%  provider_login_url 'facebook'  %}"class="btn btn-lg btn-facebook btn-block text-uppercase" type="submit"><i class="fab fa-facebook-f mr-2"></i> Sign in with Facebook</a>
+                </form>
+                
+            
+            
+           
+             
+              </div>
+            </div> -->
+          </div>
+        </div>
+      </div>
+
+    
+    </div>
+
+    </body>
+    {% endblock %}
+

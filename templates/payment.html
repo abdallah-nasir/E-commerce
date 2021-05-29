@@ -1,0 +1,206 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+<script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
+<script src="https://js.stripe.com/v3/"></script> 
+<style type="text/css">
+  .cancel {
+    text-decoration: none
+}
+
+.bg-pay {
+    background-color: #eee;
+    border-radius: 2px
+}
+
+.com-color {
+    color: #8f37aa !important
+}
+
+.radio {
+    cursor: pointer
+}
+
+label.radio input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    visibility: hidden;
+    pointer-events: none
+}
+
+label.radio div {
+    padding: 7px 14px;
+    border: 2px solid #8f37aa;
+    display: inline-block;
+    color: #8f37aa;
+    border-radius: 3px;
+    text-transform: uppercase;
+    width: 100%;
+    margin-bottom: 10px
+}
+
+label.radio input:checked+div {
+    border-color: #8f37aa;
+    background-color: #8f37aa;
+    color: #fff
+}
+
+.fw-500 {
+    font-weight: 400
+}
+
+.lh-16 {
+    line-height: 16px
+}
+</style>
+    <div id="all">
+
+      <div id="heading-breadcrumbs">
+        <div class="container">
+          <div class="row d-flex align-items-center flex-wrap">
+            <div class="col-md-7">
+              <h1 class="h2">Checkout - Payment Mehod</h1>
+            </div>
+            <div class="col-md-5">
+              <ul class="breadcrumb d-flex justify-content-end">
+                <li class="breadcrumb-item"><a href="{% url 'shop:home' %}">Home</a></li>
+                <li class="breadcrumb-item active">Checkout - Payment Mehod</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="content">
+        <div class="container">
+          <div class="row">
+            <div id="checkout" class="col-lg-9">
+              <div class="box">
+                <form method="POST">
+                  {% csrf_token %}
+                  <ul class="nav nav-pills nav-fill">
+                    
+                    <li class="nav-item"><a href="{% url 'shop:payment' %}" class="nav-link active"><i class="fa fa-money"></i><br>Payment Method</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link disabled"><i class="fa fa-eye"></i><br>Order Review</a></li>
+                  </ul>
+                  <div class="content">
+                    <div class="row">
+                         
+                            {{form|crispy}}
+                           
+
+                          
+                    </div>
+                  </div>
+                  <div class="box-footer d-flex flex-wrap align-items-center justify-content-between">
+                    <div class="left-col"><a href="{% url 'shop:orders' %}" class="btn btn-secondary mt-0"><i class="fa fa-chevron-left"></i>Back to My Order</a></div>
+                    <div class="right-col">
+                      <button type="submit" class="btn btn-template-main">Review order<i class="fa fa-chevron-right"></i></button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div class="col-lg-3">
+              <div id="order-summary" class="box mb-4 p-0">
+                <div class="box-header mt-0">
+                  <h3>Order summary</h3>
+                </div>
+                <p class="text-muted text-small">Shipping and additional costs are calculated based on the values you have entered.</p>
+                <div class="table-responsive">
+                  <table class="table">
+                    <tbody>
+                      <tr>
+                        <td>Order subtotal</td>
+                        <th>EGP {{orders.get_order_items}}</th>
+                      </tr>
+                      <tr>
+                        <td>Shipping and handling</td>
+                        <th>EGP 0.00</th>
+                      </tr>
+                      <tr>
+                        <td>Coupon</td>
+                        <th>
+                          {% if orders.coupon %}
+                          -EGP {{orders.coupon.price}}
+                          {% else %}
+                          -EGP 0
+                          {% endif %}
+                        </th>
+                     
+                      </tr>
+                      <tr class="total">
+                        <td>Total</td>
+                      <th>EGP {{orders.get_total_price}}</th>
+                      
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <script type="text/javascript">
+        const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        // Create an instance of the Stripe object with your publishable API key
+        var stripe = Stripe("pk_test_51IPqSdFPrf4ukXKcfj27N8SWrcx4xGpz75E3DgrKz7S2whmtquLcFGAIbDv6D2GvfkAme3Y0PsaHI5Ehgv1VATh0007p8ysVry");
+        // The items the customer wants to buy
+    
+        var checkoutButton = document.getElementById("checkout-button");
+    
+        checkoutButton.addEventListener("click", function () {
+    
+          fetch("{% url 'shop:session' %}", {
+    
+            method: "POST",
+            headers:{
+              "X-CSRFToken":csrftoken
+            }
+    
+          })
+    
+            .then(function (response) {
+    
+              return response.json();
+    
+            })
+    
+            .then(function (session) {
+    
+              return stripe.redirectToCheckout({ sessionId: session.id });
+    
+            })
+    
+            .then(function (result) {
+    
+              // If redirectToCheckout fails due to a browser or network
+    
+              // error, you should display the localized error message to your
+    
+              // customer using error.message.
+    
+              if (result.error) {
+    
+                alert(result.error.message);
+    
+              }
+    
+            })
+    
+            .catch(function (error) {
+    
+              console.error("Error:", error);
+    
+            });
+    
+        });
+    
+    
+      </script>
+    
+
+{% endblock %}

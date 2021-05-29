@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% block content %}
+<title>Checkout canceled</title>
+<div class="container mt-3">
+  <div class="row ">
+    <div class='col col-lg-12 col-md-12 col-sm-12'>
+      {% if messages %}
+      <ul>
+      {% for message in messages %}
+                  <li>
+                    <div role="alert" class="alert alert-success alert-dismissible">
+                      <button type="button" data-dismiss="alert" class="close"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>{{message}}
+                    </div>
+                  </li>
+              {% endfor %}
+              </ul>
+              {% endif %}
+
+              <h2>Forgot to add something to your cart? Shop around then come back to pay <a href="{%  url 'shop:payment' %}">checkout</a>.<h2>
+            
+      
+
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+ 
+ 

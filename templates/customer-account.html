@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+  <body>
+    <div id="all">
+
+      <div id="heading-breadcrumbs">
+        <div class="container">
+          <div class="row d-flex align-items-center flex-wrap">
+            <div class="col-md-7">
+              <h1 class="h2">My Account</h1>
+            </div>
+            <div class="col-md-5">
+              <ul class="breadcrumb d-flex justify-content-end">
+                <li class="breadcrumb-item"><a href="{% url 'shop:home' %}">Home</a></li>
+                <li class="breadcrumb-item active">My Account</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="content">
+        <div class="container">
+          <div class="row bar">
+            <div id="customer-account" class="col-lg-9 clearfix">
+              <div class="col col-lg-12 col-md-12 col-sm-12">
+                {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                    <li>
+                      <div role="alert" class="alert alert-success alert-dismissible">
+                        <button type="button" data-dismiss="alert" class="close"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>{{message}}
+                      </div>
+                    </li>
+                {% endfor %}
+                </ul>
+                {% endif %}
+              </div>
+              <p class="lead">Change your personal details or your password here.</p>
+              <p class="text-muted">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+              <div class="box mt-5">
+                <div class="heading">
+                  <h3 class="text-uppercase">Change password</h3>
+                </div>
+                <form method="POST">
+                  {% csrf_token %}
+                {{form|crispy}}
+                  <!-- <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="password_old">Old password</label>
+                        <input id="password_old" name="password" type="password" class="form-control">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="password_1">New password</label>
+                        <input id="password_1" name="new_password" type="password" class="form-control">
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="password_2">Retype new password</label>
+                        <input id="password_2" name="confirm_password" type="password" class="form-control">
+                      </div>
+                    </div>
+                  </div> -->
+                  <div class="text-center">
+                    <button type="submit" class="btn btn-template-outlined"><i class="fa fa-save"></i> Save new password</button>
+                  </div>
+                </form>
+              </div>
+              <div class="bo3">
+                <div class="heading">
+                  <h3 class="text-uppercase">Personal details</h3>
+                </div>
+ {% include 'customer-detail.html'  %}
+              </div>
+            </div>
+            <div class="col-lg-3 mt-4 mt-lg-0">
+              <!-- CUSTOMER MENU -->
+              <div class="panel panel-default sidebar-menu">
+                <div class="panel-heading">
+                  <h3 class="h4 panel-title">Customer section</h3>
+                </div>
+                <div class="panel-body">
+                  <ul class="nav nav-pills flex-column text-sm">
+                    <li class="nav-item"><a href="{% url 'shop:history' %}" class="nav-link active"><i class="fa fa-list"></i> My orders</a></li>
+                    <li class="nav-item"><a href="{% url 'shop:wishlist' %}" class="nav-link"><i class="fa fa-heart"></i> My wishlist</a></li>
+                    <li class="nav-item"><a href="{% url 'shop:profile' %}" class="nav-link"><i class="fa fa-user"></i> My account</a></li>
+                    {% if request.user.is_authenticated %}
+                    <li class="nav-item"><a href="{% url 'account_logout' %}" class="nav-link"><i class="fa fa-sign-out"></i> Logout</a></li>
+                  {% else %}
+                  <li class="nav-item"><a href="{% url 'shop:login' %}" class="nav-link"><i class="fa fa-sign-in"></i> Login</a></li>
+{% endif %}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+  </body>
+</html>
+{% endblock %}

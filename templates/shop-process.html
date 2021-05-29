@@ -1,0 +1,305 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block content %}
+
+
+<body>
+
+<script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
+<script src="https://js.stripe.com/v3/"></script>  
+<script src="https://www.paypal.com/sdk/js?client-id=AUVCElDtljJUDVWukP9yrdedNic0J1B1XY1MtNfPhqxQU47F1F1A7C6ixKabvUCRZCTpkFihHBaTPR-F&currency=USD" ></script>
+    <div id="all">
+
+      <div id="heading-breadcrumbs">
+        <div class="container">
+          <div class="row d-flex align-items-center flex-wrap">
+            <div class="col-md-7">
+              <h1 class="h2">Checkout - Order Review</h1>
+            </div>
+            <div class="col-md-5">
+              <ul class="breadcrumb d-flex justify-content-end">
+                <li class="breadcrumb-item"><a href="{% url 'shop:home' %}">Home</a></li>
+                <li class="breadcrumb-item active">Checkout - Order Review</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="content">
+        <div class="container">
+          <div class="row">
+            <div id="checkout" class="col-lg-9">
+              <div class="col col-lg-12 pt-3">
+                {% if messages %}
+                <ul>
+                {% for message in messages %}
+                            <li>
+                              <div role="alert" class="alert alert-success alert-dismissible">
+                                <button type="button" data-dismiss="alert" class="close"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>{{message}}
+                              </div>
+                            </li>
+                        {% endfor %}
+                        </ul>
+                        {% endif %}
+              
+              </div>
+              <div class="box">
+                <form method="get" action="shop-checkout4.html">
+                  <ul class="nav nav-pills nav-fill">
+                   
+                    <li class="nav-item"><a href="{% url 'shop:payment' %}" class="nav-link"><i class="fa fa-money"></i><br>Payment Method</a></li>
+                    {% if final.money == "PAYPAL" or final.money == "CASH" %}
+                    <li class="nav-item"><a href="{% url 'shop:form' %}" class="nav-link"><i class="fa fa-money"></i><br>Address Form</a></li>
+              {% endif %}
+                    <li class="nav-item"><a href="{% url 'shop:process' %}" class="nav-link active"><i class="fa fa-eye"></i><br>Order Review</a></li>
+                  </ul>
+                </form>
+                <div class="content">
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th colspan="2">Product</th>
+                          <th>Quantity</th>
+                          <th>Unit price</th>
+                          <th>Discount</th>
+                          <th>Total</th>
+                         
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for order in orders.items.all %}
+                        <tr>
+                          
+                          <td><a href="#"><img src="{{order.item.image}}" alt="{{order.item.name}}"></a></td>
+                          <td><a href="#">{{order.item.name}}</a></td>
+                          <td>{{order.quantity}}</td>
+                          <td>EGP {{order.item.price}}</td>
+                          {% if orders.coupon %}
+                           <td>-EGP {{orders.discount}}</td>
+                          {% else %}
+                          <td>EGP 0.00</td>
+                          {% endif %}
+                          <td>EGP {{order.get_item_price}}</td>
+                        
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                      <tfoot>
+                        <tr>
+                          <th colspan="5">Total</th>
+                          <th>EGP {{orders.get_total_price}}</th>
+                  
+
+                        </tr>
+                        <tr>
+                        
+                        </tr>
+                      </tfoot>
+                    </table>
+                  </div>
+                </div>
+                <div class="box-footer d-flex flex-wrap align-items-center justify-content-between">
+                  {% if final.money == "PAYPAL" %}
+                  <div class="left-col"><a href="{% url 'shop:form' %}" class="btn btn-secondary mt-0"><i class="fa fa-chevron-left"></i>Back to Adress Form</a></div>
+                  {% else %}
+                <div class="left-col"><a href="{% url 'shop:payment' %}" class="btn btn-secondary mt-0"><i class="fa fa-chevron-left"></i>Back to payment method</a></div>
+
+                  {% endif %}
+                  <div class="right-col">
+                    {% if final.money == "VISA / MASTERCARD" %}
+                    <button type="submit"  id="checkout-button" class="btn btn-template-main">Pay with {{final.money}}<i class="fa fa-chevron-right"></i></button>
+                    {% elif final.money == "CASH" %}
+                    <form method='POST'>
+                      {% csrf_token %}
+                      <button class="btn btn-template-main" type="submit"> Pay with {{final.money}}<i class="fa fa-chevron-right"></i></button>
+
+                    </form>
+                    {% else %}
+                    <div id="paypal-button-container" >Pay with {{final.money}}</div>
+                        {% endif %}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div ></div>
+
+            <div class="col-lg-3">
+              <div id="order-summary" class="box mb-4 p-0">
+                <div class="box-header mt-0">
+                  <h3>Order summary</h3>
+                </div>
+                <p class="text-muted text-small">Shipping and additional costs are calculated based on the values you have entered.</p>
+                <div class="table-responsive">
+                  <table class="table">
+                    <tbody>
+                      <tr>
+                        <td>Order subtotal</td>
+                        <th>EGP {{orders.get_order_items}}</th>
+                      </tr>
+                      <tr>
+                        <td>Shipping and handling</td>
+                        <th>EGP 0.00</th>
+                      </tr>
+                      <tr>
+                        <td>Coupon</td>
+                        <th>
+                          {% if orders.coupon %}
+                          -EGP {{orders.coupon.price}}
+                          {% else %}
+                          -EGP 0
+                          {% endif %}
+                        </th>
+                     
+                      </tr>
+                      <tr class="total">
+                        <td>Total</td>
+                      <th>EGP {{orders.get_total_price}}</th>
+                         
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </body>
+  
+
+<!-- stripe script -->
+
+<script type="text/javascript">
+  const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+  // Create an instance of the Stripe object with your publishable API key
+  var stripe = Stripe("pk_test_51IPqSdFPrf4ukXKcfj27N8SWrcx4xGpz75E3DgrKz7S2whmtquLcFGAIbDv6D2GvfkAme3Y0PsaHI5Ehgv1VATh0007p8ysVry");
+  // The items the customer wants to buy
+
+  var checkoutButton = document.getElementById("checkout-button");
+
+  checkoutButton.addEventListener("click", function () {
+
+    fetch("{% url 'shop:session' %}", {
+
+      method: "POST",
+      headers:{
+        "X-CSRFToken":csrftoken
+      }
+
+    })
+
+      .then(function (response) {
+
+        return response.json();
+
+      })
+
+      .then(function (session) {
+
+        return stripe.redirectToCheckout({ sessionId: session.id });
+
+      })
+
+      .then(function (result) {
+
+        // If redirectToCheckout fails due to a browser or network
+
+        // error, you should display the localized error message to your
+
+        // customer using error.message.
+
+        if (result.error) {
+
+          alert(result.error.message);
+
+        }
+
+      })
+
+      .catch(function (error) {
+
+        console.error("Error:", error);
+
+      });
+
+  });
+
+
+</script>
+ <script type="text/javascript">
+
+     // Render the PayPal button into #paypal-button-container
+     paypal.Buttons({
+      style: {
+        layout: 'horizontal',
+        color:"blue",
+        label:"checkout",
+      tagline:"false",
+      shape:"pill",
+      size:"small",
+
+
+    },
+
+            // Call your server to set up the transaction
+            createOrder: function(data, actions) {
+              return fetch('{% url "shop:create" id=orders.id %}', {
+                  method: 'post',
+                  headers: {"X-CSRFToken": csrftoken}
+              }).then(function(res) {
+                  return res.json();
+              }).then(function(orderData) {
+                  return orderData.id;
+              });
+          },
+
+          // Call your server to finalize the transaction
+          onApprove: function(data, actions) {
+              return fetch('/capture/' + data.orderID + '/{{orders.id}}/', {
+                  method: 'post',
+                  headers: {"X-CSRFToken": csrftoken}
+              }).then(function(res) {
+               
+                window.location.href = '{% url "shop:success" %}';
+
+                  return res.json();
+              }).then(function(orderData) {
+               
+                  // Three cases to handle:
+                  //   (1) Recoverable INSTRUMENT_DECLINED -> call actions.restart()
+                  //   (2) Other non-recoverable errors -> Show a failure message
+                  //   (3) Successful transaction -> Show a success / thank you message
+
+                  // Your server defines the structure of 'orderData', which may differ
+                  var errorDetail = Array.isArray(orderData.details) && orderData.details[0];
+
+                  if (errorDetail && errorDetail.issue === 'INSTRUMENT_DECLINED') {
+                      // Recoverable state, see: "Handle Funding Failures"
+                      // https://developer.paypal.com/docs/checkout/integration-features/funding-failure/
+                      return actions.restart();
+                  }
+
+                  if (errorDetail) {
+                      var msg = 'Sorry, your transaction could not be processed.';
+                      if (errorDetail.description) msg += '\n\n' + errorDetail.description;
+                      if (orderData.debug_id) msg += ' (' + orderData.debug_id + ')';
+                      // Show a failure message
+                      return alert(msg);
+                  }
+
+                  // Show a success message to the buyer
+                 
+              });
+          }
+
+
+     }).render('#paypal-button-container');
+ </script>
+
+
+{% endblock %}
+
+

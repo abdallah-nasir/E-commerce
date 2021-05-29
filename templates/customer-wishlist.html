@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+  <body>
+    <div id="all">
+      
+      <div id="heading-breadcrumbs">
+        <div class="container">
+          <div class="row d-flex align-items-center flex-wrap">
+            <div class="col-md-7">
+              <h1 class="h2">My Wishlist</h1>
+            </div>
+            <div class="col-md-5">
+              <ul class="breadcrumb d-flex justify-content-end">
+                <li class="breadcrumb-item"><a href="{% url 'shop:home' %}">Home</a></li>
+                <li class="breadcrumb-item active">My Wishlist</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="content">
+        <div class="container">
+          <div class="row bar">
+            <div class="col-lg-9">
+              {% if wishlist == False %}
+              <p class="lead">You dont have products yet.</p>
+          {% endif %}
+              <div class="row products">
+              
+                {% for product in wishlist.item.all %}
+                <div class="col-lg-3 col-md-4">
+                  <div class="product">
+                    <div class="image"><a href="{% url 'shop:product' id=product.id %}"><img src="{{product.image}}" alt="" class="img-fluid image1"></a></div>
+                    <div class="text">
+                      <h3 class="h5"><a href="{% url 'shop:product' id=product.id %}">{{product.name}}</a></h3>
+                      <p class="price">EGP {{product.price}}</p>
+                    </div>
+                  </div>
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+            <div class="col-lg-3 mt-4 mt-lg-0">
+              <!-- CUSTOMER MENU -->
+              <div class="panel panel-default sidebar-menu">
+                <div class="panel-heading">
+                  <h3 class="h4 panel-title">Customer section</h3>
+                </div>
+                <div class="panel-body">
+                  <ul class="nav nav-pills flex-column text-sm">
+                    <li class="nav-item"><a href="{%url 'shop:history' %}" class="nav-link active"><i class="fa fa-list"></i> My orders</a></li>
+                    <li class="nav-item"><a href="{% url 'shop:wishlist' %}" class="nav-link"><i class="fa fa-heart"></i> My wishlist</a></li>
+                    <li class="nav-item"><a href="{% url 'shop:profile' %}" class="nav-link"><i class="fa fa-user"></i> My account</a></li>
+                    {% if request.user.is_authenticated %}
+                    <li class="nav-item"><a href="{% url 'account_logout' %}" class="nav-link"><i class="fa fa-sign-out"></i> Logout</a></li>
+                   {% else %}
+                  <li class="nav-item"><a href="{% url 'account_login' %}" class="nav-link"><i class="fa fa-sign-out"></i> Login</a></li>
+
+                    {% endif %}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+  </body>
+{% endblock %}

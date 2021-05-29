@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+  <body>
+    <div id="all">
+      <div id="heading-breadcrumbs">
+        <div class="container">
+          <div class="row d-flex align-items-center flex-wrap">
+            <div class="col-md-7">
+              <h1 class="h2">Order # {{orders.id}}</h1>
+            </div>
+            <div class="col-md-5">
+              <ul class="breadcrumb d-flex justify-content-end">
+                <li class="breadcrumb-item"><a href="{% url 'shop:home' %}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'shop:history' %}">My Orders</a></li>
+                <li class="breadcrumb-item active">Order # {{orders.id}}</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="content">
+        <div class="container">
+          <div class="row bar">
+            <div id="customer-order" class="col-lg-9">
+              <p class="lead">Order #{{orders.id}} was placed on <strong>{{orders.order.order_date|date:"d/m/y"}}</strong> and is currently <strong>{{orders.status}}</strong>.</p>
+              <p class="lead text-muted">If you have any questions, please feel free to <a href="{% url 'shop:contact' %}">contact us</a>, our customer service center is working for you 24/7.</p>
+              <div class="box">
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th colspan="2" class="border-top-0">Product</th>
+                        <th class="border-top-0">Quantity</th>
+                        <th class="border-top-0">Unit price</th>
+                        <th class="border-top-0">Discount</th>
+                        <th class="border-top-0">Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for i in orders.order.items.all %}
+                      <tr>
+                        <td><a href="#"><img src="{{i.item.image}}" alt="{{i.item.name}}" class="img-fluid"></a></td>
+                        <td><a href="#">{{i.item.name}}</a></td>
+                        <td>{{i.quantity}}</td>
+                        <td>EGP {{i.get_item_price}}</td>
+                      <td>EGP {{orders.order.discount}}</td>
+                   
+                      
+                        <td>EGP {{i.get_item_price}}</td>
+                      </tr>
+                      {% endfor %}
+           
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <th colspan="5" class="text-right">Order subtotal</th>
+                        <th>EGP {{orders.order.get_order_items}}</th>
+                      </tr>
+                      <tr>
+                        <th colspan="5" class="text-right">Shipping and handling</th>
+                        <th>$0.00</th>
+                      </tr>
+                      <tr>
+                        <th colspan="5" class="text-right">DISCOUNT</th>
+                        <th>EGP {{orders.order.discount}}</th>
+                      </tr>
+                      <tr>
+                        <th colspan="5" class="text-right">Total</th>
+                        <th>EGP {{orders.order.get_total_price}}</th>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+                <div class="row addresses">
+            
+                  <div class="col-md-6 col-lg-12 text-right">
+                    <h3 class="text-uppercase">Shipping address</h3>
+                    <p>{{orders.line2}}<br>					    {{orders.line1}}<br>					    {{orders.city}}<br>					    {{orders.country}}<br>					    <br>					   </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3 mt-4 mt-lg-0">
+              <!-- CUSTOMER MENU -->
+              <div class="panel panel-default sidebar-menu">
+                <div class="panel-heading">
+                  <h3 class="h4 panel-title">Customer section</h3>
+                </div>
+                <div class="panel-body">
+                  <ul class="nav nav-pills flex-column text-sm">
+                    <li class="nav-item"><a href="{% url 'shop:history' %}" class="nav-link active"><i class="fa fa-list"></i> My orders</a></li>
+                    <li class="nav-item"><a href="{% url 'shop:wishlist' %}" class="nav-link"><i class="fa fa-heart"></i> My wishlist</a></li>
+                    <li class="nav-item"><a href="{% url 'shop:profile' %}" class="nav-link"><i class="fa fa-user"></i> My account</a></li>
+                    <li class="nav-item"><a href="{% url 'shop:home' %}" class="nav-link"><i class="fa fa-sign-out"></i> Logout</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </body>
+{% endblock %}
