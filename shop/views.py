@@ -345,7 +345,7 @@ def shop_basket(request):
                 my_deleted=Order.objects.filter(user=request.user,device=the_id,ordered=False)
                 for c in my_deleted[1:]:
                     c.delete() 
-            my_order=Order.objects.get(user=request.user)    
+            my_order=Order.objects.get(user=request.user,ordered=False)    
             list=WishList.objects.filter(device=the_id)
             if list.exists():   
                wish_list=WishList.objects.get(device=the_id)
