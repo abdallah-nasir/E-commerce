@@ -106,8 +106,8 @@ DATABASES={
         "PORT":""
     }     
 }
-# DATABASE_URL=config("DB_URL")
-# DATABASES['default'] = dj_database_url.config(default=DATABASE_URL)
+DATABASE_URL=config("DB_URL")
+DATABASES['default'] = dj_database_url.config(default=DATABASE_URL)
 
 
 # Password validation
