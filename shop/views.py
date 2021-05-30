@@ -790,13 +790,13 @@ def capture(request,order_id,id):
     # body=json.loads(request.body)
 
     # return redirect(reverse("shop:home"))
-         
+@login_required()        
 def history(request):
     order=final_order.objects.filter(name=request.user,ordered=True).order_by("-id")
     context={"orders":order}
     return render(request,"customer-orders.html",context)
      
-         
+@login_required()          
 def history_details(request,id):
     try:
         order=final_order.objects.get(id=id)
