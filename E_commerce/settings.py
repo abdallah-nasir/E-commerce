@@ -29,8 +29,15 @@ TEMPLATE_DEBUG = DEBUG
 ALLOWED_HOSTS =["127.0.0.1","localhost","universal-e-commerce.herokuapp"]
 SESSION_COOKIE_HTTPONLY = True
 CSRF_COOKIE_HTTPONLY = True
+SECURE_SSL_REDIRECT=True
+SESSION_COOKIE_SECURE = True
+SECURE_HSTS_SECONDS = 31536000
+SECURE_HSTS_PRELOAD =True
 SESSION_COOKIE_PATH = '/;HttpOnly'
-
+SECURE_CONTENT_TYPE_NOSNIFF = True
+CSRF_COOKIE_SECURE = True 
+SECURE_REFERRER_POLICY = 'same-origin'
+SECURE_HSTS_INCLUDE_SUBDOMAINS =True
 # Application definition
 
 INSTALLED_APPS = [
@@ -259,4 +266,5 @@ MEDIA_ROOT=  os.path.join(BASE_DIR,"media")
 STATICFILES_STORAGE="whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 django_heroku.settings(locals())
+
 

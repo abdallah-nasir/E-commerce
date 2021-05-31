@@ -64,9 +64,9 @@
                     <li class="nav-item"><a href="{% url 'shop:wishlist' %}" class="nav-link"><i class="fa fa-heart"></i> My wishlist</a></li>
                     <li class="nav-item"><a href="{% url 'shop:profile' %}" class="nav-link"><i class="fa fa-user"></i> My account</a></li>
                    {% if request.user.is_authenticated %}
-                    <li class="nav-item"><a href="{% url 'account_login' %}" class="nav-link"><i class="fa fa-sign-out"></i> Logout</a></li>
-                    {% else %}
                     <li class="nav-item"><a href="{% url 'account_logout' %}" class="nav-link"><i class="fa fa-sign-out"></i> Logout</a></li>
+                    {% else %}
+                    <li class="nav-item"><a href="{% url 'account_login' %}" class="nav-link"><i class="fa fa-sign-in"></i> Login</a></li>
 
                     {% endif %}
                   </ul>
