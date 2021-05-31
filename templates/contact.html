@@ -143,31 +143,7 @@
   <script 
   src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-  <!-- <script type="text/javascript">
-    $("#form").submit(function(e){
-      // prevent from normal form behaviour
-          e.preventDefault();
-          // serialize the form data  
-          var serializedData = $(this).serialize();
-          //let target_element = $('#add-html-here');
-          $.ajax({
-              type : 'POST',
-              url :  "{% url 'shop:contact' %}",
-              data : serializedData,
-              success : function(response){
-              //reset the form after successful submit
-                  $("#form")[0].reset();
-                 // target_element.html();
-                 window.location.href="{% url 'shop:contact' %}"
-              },
-              error : function(response){
-                  console.log(response)
-              }
-          });
-     });
-  
-  </script> -->
-  
+
 {% endblock %}
 
 

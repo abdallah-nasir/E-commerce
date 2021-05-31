@@ -814,24 +814,24 @@ def packages(request):
     return render(request,"packages.html",context)
 def contact(request):
     form=ContactForm(request.POST or None)
-    if request.method=="POST" and  request.is_ajax():
-        if form.is_valid():
-            subject=form.cleaned_data.get("subject")
-            message=form.cleaned_data.get("message")
-            email=form.cleaned_data.get("email")
-            send_mail(
-                subject=subject,
-                message=message + f' from {email}',
-                from_email=email,
-                recipient_list=[settings.EMAIL_HOST_USER],
-                fail_silently=False, 
-                auth_user=None,
-                auth_password=None,
-                connection=None,         
-                html_message=None      
-                    )    
-            
-            messages.success(request,"thank you for youe Message,we will be in touch with you soon")
+    
+    if form.is_valid():
+        subject=form.cleaned_data.get("subject")
+        message=form.cleaned_data.get("message")
+        email=form.cleaned_data.get("email")
+        send_mail(
+            subject=subject,
+            message=message + f' from {email}',
+            from_email=email,
+            recipient_list=[settings.EMAIL_HOST_USER],
+            fail_silently=False, 
+            auth_user=None,
+            auth_password=None,
+            connection=None,         
+            html_message=None      
+                )    
+        
+        messages.success(request,"thank you for youe Message,we will be in touch with you soon")
             return redirect(reverse("shop:contact"))
     context={"form":form}    
     return render(request,"contact.html",context)
