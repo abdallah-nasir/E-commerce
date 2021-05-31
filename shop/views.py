@@ -831,7 +831,7 @@ def contact(request):
                 html_message=None      
                     )    
             
-            message=messages.success(request,"thank you for youe Message,we will be in touch with you soon")
+            messages.success(request,"thank you for youe Message,we will be in touch with you soon")
             return redirect(reverse("shop:contact"))
     context={"form":form}    
     return render(request,"contact.html",context)
