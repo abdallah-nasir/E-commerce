@@ -24,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY=config("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 ALLOWED_HOSTS =["127.0.0.1","localhost","universal-e-commerce.herokuapp"]
 SESSION_COOKIE_HTTPONLY = True
@@ -115,8 +115,8 @@ DATABASES={
         "PORT":""
     }     
 }
-# DATABASE_URL=config("DB_URL")
-# DATABASES['default'] = dj_database_url.config(default=DATABASE_URL)
+DATABASE_URL=config("DB_URL")
+DATABASES['default'] = dj_database_url.config(default=DATABASE_URL)
 
 
 # Password validation
