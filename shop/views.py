@@ -832,7 +832,7 @@ def contact(request):
                 )    
         
         messages.success(request,"thank you for youe Message,we will be in touch with you soon")
-            return redirect(reverse("shop:contact"))
+        return redirect(reverse("shop:contact"))
     context={"form":form}    
     return render(request,"contact.html",context)
 # from django.shortcuts import render_to_response
