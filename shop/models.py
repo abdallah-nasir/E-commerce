@@ -10,11 +10,12 @@ import datetime
 import uuid
 from google_currency import convert
 import json
-   
+
 # Create your models here.
 
     
 
+        
 class Customer(models.Model):
     user = models.OneToOneField(User,default=1,on_delete=models.CASCADE)
     first_name=models.CharField(blank=True,null=True,max_length=50)
@@ -87,6 +88,7 @@ class Product(models.Model):
     def get_same_item(self):
         item=Product.objects.filter(category=self.category)      
         return item
+
 class OrderProduct(models.Model):
     user = models.ForeignKey(User,null=True,blank=True, on_delete=models.CASCADE)
     item = models.ForeignKey(Product,null=True,blank=True,on_delete=models.CASCADE)

@@ -49,6 +49,7 @@ import stripe
 
 import datetime
 def home(request):   
+   
     # print(datetime.timezone(now))  
     form=MyCustomLoginForm(request.POST or None)
     if form.is_valid():
@@ -57,7 +58,7 @@ def home(request):
         the_id=request.COOKIES["device"]
         print(request.COOKIES["device"])
     except:       
-        pass    
+        pass      
     context={"form":form}  
     return render(request,"home.html",context)      
      

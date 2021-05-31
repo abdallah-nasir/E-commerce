@@ -27,17 +27,17 @@ SECRET_KEY=config("SECRET_KEY")
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 ALLOWED_HOSTS =["127.0.0.1","localhost","universal-e-commerce.herokuapp"]
-# SESSION_COOKIE_HTTPONLY = True
-# CSRF_COOKIE_HTTPONLY = True
-# SECURE_SSL_REDIRECT=True
-# SESSION_COOKIE_SECURE = True
-# SECURE_HSTS_SECONDS = 31536000
-# SECURE_HSTS_PRELOAD =True
-# SESSION_COOKIE_PATH = '/;HttpOnly'
-# SECURE_CONTENT_TYPE_NOSNIFF = True
-# CSRF_COOKIE_SECURE = True 
-# SECURE_REFERRER_POLICY = 'same-origin'
-# SECURE_HSTS_INCLUDE_SUBDOMAINS =True
+SESSION_COOKIE_HTTPONLY = True
+CSRF_COOKIE_HTTPONLY = True
+SECURE_SSL_REDIRECT=True
+SESSION_COOKIE_SECURE = True
+SECURE_HSTS_SECONDS = 31536000
+SECURE_HSTS_PRELOAD =True
+SESSION_COOKIE_PATH = '/;HttpOnly'
+SECURE_CONTENT_TYPE_NOSNIFF = True
+CSRF_COOKIE_SECURE = True 
+SECURE_REFERRER_POLICY = 'same-origin'
+SECURE_HSTS_INCLUDE_SUBDOMAINS =True
 # Application definition
 
 INSTALLED_APPS = [
@@ -52,7 +52,8 @@ INSTALLED_APPS = [
     "shop",
     #3rd party apps
     'crispy_forms',
-    'django_filters',    
+    'django_filters',   
+    # 'google_translate',
     # 'django_celery_beat',
     # 'shopify_sync',
     'allauth',
@@ -70,6 +71,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
     "whitenoise.middleware.WhiteNoiseMiddleware"
 ]
 
@@ -241,7 +243,13 @@ SHOPIFY_API_SECRET=config("SHOPIFY_API_SECRET")
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-
+LANGUAGES = (            # supported languages
+    ('en', 'English'),
+    ('en-gb', 'English (Great Britain)'),
+    ('de', 'German'),
+    ('tr', 'Turkish'),
+    ("ar","Arabic"),
+)
 TIME_ZONE="Atlantic/Bermuda"  
 USE_I18N = True
 
