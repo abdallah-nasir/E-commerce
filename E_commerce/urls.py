@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path,include   
+from django.urls import path,include,re_path
 from django.conf import settings
 from django.conf.urls import (handler400, handler403, handler404, handler500
 )
@@ -26,7 +26,7 @@ from django.utils.translation import gettext_lazy as _
 
 urlpatterns =[
     path('admin/', admin.site.urls),
-    path("",include("shop.urls",namespace="shop")),   
+    re_path("",include("shop.urls",namespace="shop")),   
     path('accounts/', include('allauth.urls')),
 ]
 
