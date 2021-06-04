@@ -49,7 +49,7 @@ import stripe
 
 import datetime
 def home(request):   
-   
+    print(datetime.datetime.now())
     # print(datetime.timezone(now))  
     form=MyCustomLoginForm(request.POST or None)
     if form.is_valid():
@@ -892,11 +892,19 @@ def customer(request):
     return render(request,"customer-account.html",context)
 
 
+from django.utils.translation import gettext as _
+from django.utils.translation import get_language,activate,gettext
 
-# from amazon.api import AmazonAPI
-#   SHOPIFY 
-def shopify(request):
-    products = requests.get("https://fakestoreapi.com/products").json()
+def words(request):
+    # trans =translate(language="ar")
   
-    context={"products":products}
+    context={}
     return render(request,"shopify.html",context)
+# def translate(language):
+#     cur_language=get_language()
+#     try:
+#         activate(language)
+#         text=gettext("hello world")  #or _("hellow world")
+#     finally:    
+#         activate(cur_language)
+#     return text

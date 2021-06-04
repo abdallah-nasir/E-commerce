@@ -1,8 +1,17 @@
 {% extends 'base.html' %}
+{% load i18n %}
 {% block content %}
-{% for i in products  %}
-{{i.id}}
+<div class="container">
+    <div class="row">
+        <div class="col">
+           <h2> {% trans "hello world" %} </h2> 
+        
+               </div>
+              
+    </div>
+</div>
+ 
 
 
-{% endfor %}
+
 {% endblock %}

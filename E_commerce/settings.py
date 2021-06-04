@@ -24,20 +24,20 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY=config("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 ALLOWED_HOSTS =["127.0.0.1","localhost","universal-e-commerce.herokuapp"]
-SESSION_COOKIE_HTTPONLY = True
-CSRF_COOKIE_HTTPONLY = True
-SECURE_SSL_REDIRECT=True
-SESSION_COOKIE_SECURE = True
-SECURE_HSTS_SECONDS = 31536000
-SECURE_HSTS_PRELOAD =True
-SESSION_COOKIE_PATH = '/;HttpOnly'
-SECURE_CONTENT_TYPE_NOSNIFF = True
-CSRF_COOKIE_SECURE = True 
-SECURE_REFERRER_POLICY = 'same-origin'
-SECURE_HSTS_INCLUDE_SUBDOMAINS =True
+# SESSION_COOKIE_HTTPONLY = True
+# CSRF_COOKIE_HTTPONLY = True
+# SECURE_SSL_REDIRECT=True
+# SESSION_COOKIE_SECURE = True
+# SECURE_HSTS_SECONDS = 31536000
+# SECURE_HSTS_PRELOAD =True
+# SESSION_COOKIE_PATH = '/;HttpOnly'
+# SECURE_CONTENT_TYPE_NOSNIFF = True
+# CSRF_COOKIE_SECURE = True 
+# SECURE_REFERRER_POLICY = 'same-origin'
+# SECURE_HSTS_INCLUDE_SUBDOMAINS =True
 # Application definition
 
 INSTALLED_APPS = [
@@ -66,12 +66,12 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    "django.middleware.locale.LocaleMiddleware",
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    
     "whitenoise.middleware.WhiteNoiseMiddleware"
 ]
 
@@ -115,8 +115,8 @@ DATABASES={
         "PORT":""
     }     
 }
-DATABASE_URL=config("DB_URL")
-DATABASES['default'] = dj_database_url.config(default=DATABASE_URL)
+# DATABASE_URL=config("DB_URL")
+# DATABASES['default'] = dj_database_url.config(default=DATABASE_URL)
 
 
 # Password validation
@@ -242,13 +242,14 @@ SHOPIFY_API_SECRET=config("SHOPIFY_API_SECRET")
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
+from django.utils.translation import gettext_lazy as _
 LANGUAGE_CODE = 'en-us'
 LANGUAGES = (            # supported languages
-    ('en', 'English'),
-    ('en-gb', 'English (Great Britain)'),
-    ('de', 'German'),
-    ('tr', 'Turkish'),
-    ("ar","Arabic"),
+    ('en', _('English')),
+    ('en-gb', _('English (Great Britain)')),
+    ('de', _('German')),
+    ('tr', _('Turkish')),
+    ("ar",_("Arabic")),
 )
 TIME_ZONE="Atlantic/Bermuda"  
 USE_I18N = True
@@ -274,5 +275,7 @@ MEDIA_ROOT=  os.path.join(BASE_DIR,"media")
 STATICFILES_STORAGE="whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 django_heroku.settings(locals())
-
-
+#for translation
+LOCALE_PATHS=(   
+    os.path.join(BASE_DIR,"locale/"),
+             )

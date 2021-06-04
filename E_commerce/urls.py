@@ -19,15 +19,21 @@ from django.conf import settings
 from django.conf.urls import (handler400, handler403, handler404, handler500
 )
 from django.conf.urls.static import static
+from django.conf.urls.i18n import i18n_patterns
+from django.utils.translation import gettext_lazy as _
 # from allauth.account.url
 
 
-
-urlpatterns = [
-    path('admin/', admin.site.urls),
+urlpatterns = i18n_patterns(
+    path(_('admin/'), admin.site.urls),
     path("",include("shop.urls",namespace="shop")),
-    path('accounts/', include('allauth.urls')),
-]
+    path(_('accounts/'), include('allauth.urls')),
+)
+
+# urlpatterns += i18n_patterns(
+#     path("",include("shop.urls",namespace="shop")),
+# )
+
 
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)

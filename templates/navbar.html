@@ -1,6 +1,7 @@
 {% load static %}
 {% load crispy_forms_tags %}
 {% load socialaccount %}
+{% load i18n %}
 <style type="text/css">
   :root {
     --input-padding-x: 1.5rem;
@@ -88,7 +89,7 @@ body {
             <div class="container">
               <div class="row d-flex align-items-center">
                 <div class="col-md-6 d-md-block d-none">
-                  <p>Contact us on +420 777 555 333 or abdallah.nasir@ymail.com.</p>
+                  <p>{% trans 'Contact us on +420 777 555 333 or abdallah.nasir@ymail.com.' %}</p>
                 </div>
                 <div class="col-md-6">
                   <div class="d-flex justify-content-md-end justify-content-between">
@@ -98,11 +99,11 @@ body {
                     </ul>
                     <div class="login">
                       {% if not request.user.is_authenticated %}
-                      <a href="#" data-toggle="modal" data-target="#login-modal" class="login-btn"><i class="fa fa-sign-in"></i><span class="d-none d-md-inline-block">Sign in</span></a>
-                      <a href="{% url 'account_signup' %}" class="signup-btn"><i class="fa fa-user"></i><span class="d-none d-md-inline-block">Sign Up</span></a>
+                      <a href="#" data-toggle="modal" data-target="#login-modal" class="login-btn"><i class="fa fa-sign-in"></i><span class="d-none d-md-inline-block">{% trans 'Sign in' %}</span></a>
+                      <a href="{% url 'account_signup' %}" class="signup-btn"><i class="fa fa-user"></i><span class="d-none d-md-inline-block">{% trans 'Sign Up' %}</span></a>
 
                       {% else %}
-                      <a href="{% url 'account_logout' %}"  class="login-btn"><i class="fa fa-sign-out"></i><span class="d-none d-md-inline-block">Sign out</span></a>
+                      <a href="{% url 'account_logout' %}"  class="login-btn"><i class="fa fa-sign-out"></i><span class="d-none d-md-inline-block">{% trans 'Sign out' %}</span></a>
                    {% endif %}
                     </div>
                     <ul class="social-custom list-inline">
@@ -123,7 +124,7 @@ body {
             <div role="document" class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h4 id="login-modalLabel" class="modal-title">Customer Login</h4>
+                  <h4 id="login-modalLabel" class="modal-title">{% trans 'Customer Login' %}</h4>
                   <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
                 </div>
                
@@ -138,14 +139,14 @@ body {
                     {% if redirect_field_value %}
                     <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
                     {% endif %}
-                    <div class="custom-control custom-checkbox mb-3"> <input name="remember" type="checkbox" class="custom-control-input" id="customCheck1"> <label class="custom-control-label" for="customCheck1">Remember password?</label> </div> <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign in</button>
+                    <div class="custom-control custom-checkbox mb-3"> <input name="remember" type="checkbox" class="custom-control-input" id="customCheck1"> <label class="custom-control-label" for="customCheck1">{% trans 'Remember password?' %}</label> </div> <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">{% trans 'Sign in' %}</button>
                     <hr class="my-4">
-                     <a href="{%  provider_login_url 'google'  %}" class="btn btn-lg btn-google btn-block text-uppercase" ><i class="fab fa-google mr-2"></i> Sign in with Google</a>
-                  <a href="{%  provider_login_url 'facebook'  %}" class="btn btn-lg btn-facebook btn-block text-uppercase"><i class="fab fa-facebook-f mr-2"></i> Sign in with Facebook</a>
+                     <a href="{%  provider_login_url 'google'  %}" class="btn btn-lg btn-google btn-block text-uppercase" ><i class="fab fa-google mr-2"></i>{% trans 'Sign in with Google' %} </a>
+                  <a href="{%  provider_login_url 'facebook'  %}" class="btn btn-lg btn-facebook btn-block text-uppercase"><i class="fab fa-facebook-f mr-2"></i>{% trans 'Sign in with Facebook' %} </a>
                   </form>
 
-                  <p class="text-center text-muted">Not registered yet?</p>
-                  <p class="text-center text-muted"><a href="{% url 'account_signup' %}"><strong>Register now</strong></a>! It is easy and done in 1 minute and gives you access to special discounts and much more!</p>
+                  <p class="text-center text-muted">{% trans 'Not registered yet?' %}</p>
+                  <p class="text-center text-muted"><a href="{% url 'account_signup' %}"><strong>{% trans 'Register now' %}</strong></a>{% trans '! It is easy and done in 1 minute and gives you access to special discounts and much more!' %}</p>
                 </div>
               </div>
             </div>
@@ -157,12 +158,12 @@ body {
                 <button type="button" data-toggle="collapse" data-target="#navigation" class="navbar-toggler btn-template-outlined"><span class="sr-only">Toggle navigation</span><i class="fa fa-align-justify"></i></button>
                 <div id="navigation" class="navbar-collapse collapse">
                   <ul class="nav navbar-nav ml-auto">
-                    <li class="nav-item active"><a href="{% url 'shop:home'  %}" >Home</a></li>
+                    <li class="nav-item active"><a href="{% url 'shop:home'  %}" >{% trans 'Home' %}</a></li>
 
-                    <li class="nav-item"><a href="{% url 'shop:list'  %}" >category</a></li>
+                    <li class="nav-item"><a href="{% url 'shop:list'  %}" >{% trans 'category' %}</a></li>
     
                     <li class="nav-item dropdown menu-large">
-                      <a href="" data-toggle="dropdown" class="dropdown-toggle special">Portfolio <b class="caret"></b>
+                      <a href="" data-toggle="dropdown" class="dropdown-toggle special">{% trans 'Portfolio' %} <b class="caret"></b>
                       
                       </a>
                       <ul class="dropdown-menu megamenu">
@@ -170,36 +171,56 @@ body {
                           <div class="row">
                             <div class="col-lg-6"><img src="{% static 'img/template-homepage.png' %}" alt="" class="img-fluid d-none d-lg-block"></div>
                             <div class="col-lg-3 col-md-6">
-                              <h5>Portfolio</h5>
+                              <h5>{% trans 'Portfolio' %}</h5>
                               <ul class="list-unstyled mb-3">
 
-                            <li class="nav-item"><a href="{% url 'shop:profile'  %}" class="nav-link">My profile</a></li>
-                           <li class="nav-item"><a href="{% url 'shop:wishlist'  %}" class="nav-link">My WishList</a></li>
-                           <li class="nav-item"><a href="{% url 'shop:orders'  %}" class="nav-link">My order</a></li>
-                           <li class="nav-item"><a href="{% url 'shop:history'  %}" class="nav-link">My Order List</a></li>
+                            <li class="nav-item"><a href="{% url 'shop:profile'  %}" class="nav-link">{% trans 'My profile' %}</a></li>
+                           <li class="nav-item"><a href="{% url 'shop:wishlist'  %}" class="nav-link">{% trans 'My WishList' %}</a></li>
+                           <li class="nav-item"><a href="{% url 'shop:orders'  %}" class="nav-link">{% trans 'My order' %}</a></li>
+                           <li class="nav-item"><a href="{% url 'shop:history'  %}" class="nav-link">{% trans 'My Order List' %}</a></li>
                               </ul>
                             </div>
                             <div class="col-lg-3 col-md-6">
-                              <h5>About</h5>
+                              <h5>{% trans 'About' %}</h5>
                               <ul class="list-unstyled mb-3">
-                                <li class="nav-item"><a href="{% url 'shop:about' %}" class="nav-link">About us</a></li>
+                                <li class="nav-item"><a href="{% url 'shop:about' %}" class="nav-link">{% trans 'About us' %}</a></li>
                                  
                               </ul>
-                              <h5>Marketing</h5>
+                              <h5>{% trans 'Marketing' %}</h5>
                               <ul class="list-unstyled">
-                                <li class="nav-item"><a href="{% url 'shop:package' %}" class="nav-link">Packages</a></li>
+                                <li class="nav-item"><a href="{% url 'shop:package' %}" class="nav-link">{% trans 'Packages' %}</a></li>
                               </ul>
                             </div>
                           </div>
                         </li>
                       </ul>
+                   
                     </li>
                     <!-- ========== FULL WIDTH MEGAMENU ==================-->
                  
                     <!-- ========== FULL WIDTH MEGAMENU END ==================-->
                     <!-- ========== Contact dropdown ==================-->
-                    <li class="nav-item dropdown"><a href="{% url 'shop:contact' %}">Contact <b class="caret"></b></a>
-                
+                    <li class="nav-item dropdown"><a href="{% url 'shop:contact' %}">{% trans 'Contact' %}<b class="caret"></b></a>
+                  <li class="nav-item dropdown menu-large">
+                    <a href="" data-toggle="dropdown" class="dropdown-toggle special">{% trans 'Language' %}<b class="caret"></b> </a> 
+                    <ul class="dropdown-menu megamenu">
+                      <li>
+                        <div class="row row-lg-3">
+                          <div class="col col-lg-3">
+                            {% get_current_language as LANGUAGE_CODE %}
+               {% get_available_languages as LANGUAGES %}
+ 
+               {% get_language_info_list for LANGUAGES as languages %}
+              
+              {% for lang in languages %}
+             
+              <li class="nav-item">
+                <a href="/{{lang.code}}" class="nav-link">{{lang.name_local}}</a></li>
+              {% endfor %}
+                          </div>
+                        </div>
+                      </li>
+                    </ul>              
                 </div>
                 <div id="search" class="collapse clearfix">
                   <form role="search" class="navbar-form">

@@ -23,7 +23,7 @@ urlpatterns = [
     path("contact-us/",views.contact,name="contact"),
     path("my-profile/",views.customer,name="profile"),
 
-    path("shopify/",views.shopify,name="shopify"),
+    path("words/",views.words,name="words"),
 
 #    path("login/",Customlogin.as_view(),name="login"),
     # path("register/",Customsignup.as_view(),name="signup"),
