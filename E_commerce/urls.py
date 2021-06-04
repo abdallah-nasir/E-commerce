@@ -22,17 +22,16 @@ from django.conf.urls.static import static
 from django.conf.urls.i18n import i18n_patterns
 from django.utils.translation import gettext_lazy as _
 # from allauth.account.url
+  
 
-
-urlpatterns = [
-    path('admin/'), admin.site.urls,
-    path('accounts/'), include('allauth.urls'),
-
-    path("",include("shop.urls",namespace="shop")),
-]
-urlpatterns += i18n_patterns(
-    path("",include("shop.urls",namespace="shop")),
+urlpatterns =i18n_patterns(
+    path('admin/', admin.site.urls),
+    path('accounts/', include('allauth.urls')),
+    path("",include("shop.urls",namespace="shop")),   
 )
+# urlpatterns += i18n_patterns(    
+#     path("",include("shop.urls",namespace="shop")),
+# )
 
 
 if settings.DEBUG:
