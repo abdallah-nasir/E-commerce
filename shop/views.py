@@ -817,6 +817,8 @@ def contact(request):
     form=ContactForm(request.POST or None)
     
     if form.is_valid():
+        # if request.is_ajax:
+        # print("ajax")
         subject=form.cleaned_data.get("subject")
         message=form.cleaned_data.get("message")
         email=form.cleaned_data.get("email")
@@ -827,13 +829,12 @@ def contact(request):
             recipient_list=[settings.EMAIL_HOST_USER],
             fail_silently=False, 
             auth_user=None,
-            auth_password=None,
+            auth_password=None,     
             connection=None,         
             html_message=None      
-                )    
-        
-        messages.success(request,"thank you for youe Message,we will be in touch with you soon")
+                )                
         return redirect(reverse("shop:contact"))
+
     context={"form":form}    
     return render(request,"contact.html",context)
 # from django.shortcuts import render_to_response

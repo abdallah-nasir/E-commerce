@@ -18,22 +18,7 @@
               </ul>
             </div>
 
-            <div class="col col-lg-12">
-              {% if messages %}
-              <ul id="add-html-here">
-              {% for message in messages %}
-                          <li>
-                            <div role="alert" class="alert alert-success alert-dismissible">
-                              <button type="button" data-dismiss="alert" class="close"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>{{message}}
-                            </div>
-                          </li>
-                      {% endfor %}
-                      </ul>
-                      {% endif %}
-            
-            </div>
-     
-          </div>
+                 </div>
         </div>
       </div>
       <div id="content">
@@ -130,7 +115,9 @@
                     
                   </div> 
                 </form>
-           
+                <div class="col pt-2" id="connt">
+                </div>  
+            
               </div>
             </div>
           </section>
@@ -144,6 +131,54 @@
   src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <!-- <script type="text/javascript">
+    // Create Django Ajax Call
+    
+      // prevent from normal form behaviour
+         
+    $("form#addUser").submit(function() {
+     
+        var firstnameInput = $('input[name="first_name"]').val().trim();
+        var lastnameInput = $('input[name="last_name"]').val().trim();
+        var emailInput = $('input[name="email"]').val().trim();
+        var subjectInput = $('input[name="subject"]').val().trim();
+        var messageInput = $('input[name="message"]').val().trim();
+
+        if (firstnameInput && lastnameInput && emailInput && subjectInput && messageInput) {
+            // Create Ajax Call
+            $.ajax({
+                url: '{% url "shop:contact" %}',
+                data: {
+                    'first_name': firstnameInput,
+                    'last_name': lastnameInput,
+                    'email': emailInput,
+                    'subject': subjectInput,
+                    'message': messageInput
+                },
+                dataType: 'json',
+                success: function (data) {
+                    if (data.user) {
+                      appendToUsrTable(data.user);
+                    }
+                }
+            });
+    
+        } else {
+            alert("All fields must have a valid value.");
+        }
+        $('form#addUser').trigger("reset");
+        return false;
+    });
+    
+ 
+    function appendToUsrTable(user) {
+      $("#add-html-here").append(`
+        
+        `);
+    }
+
+    </script> -->
+ 
+  <script type="text/javascript">
     $("#form").submit(function(e){
       // prevent from normal form behaviour
           e.preventDefault();
@@ -157,16 +192,34 @@
               success : function(response){
               //reset the form after successful submit
                   $("#form")[0].reset();
-                 // target_element.html();
-                 window.location.href="{% url 'shop:contact' %}"
+                    appendToUsrTable();
+                  
+                  
+
               },
               error : function(response){
                   console.log(response)
               }
           });
      });
-  
-  </script> -->
+     function appendToUsrTable(response) {
+      $("#connt").append(`
+      <div class="col col-lg-12">
+      
+    <ul>
+    <li>
+      <div role="alert" class="alert alert-success alert-dismissible">
+        <button type="button" data-dismiss="alert" class="close"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+        thank you for your Message,we will be in touch with you soon
+      </div>
+    </li>        
+</ul>
+
+  </div>
+               
+        `);
+    }
+  </script>
   
 {% endblock %}
 

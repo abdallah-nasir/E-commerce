@@ -58,23 +58,27 @@
                         </select>
                       </div>
                       <p class="price"> EGP{{products.price}}</p>
-                      <p class="text-center">
-                        {% if messages %}
-                        <ul class="messages">
-                            {% for message in messages %}
-                            <li>
-                              <div role="alert" class="alert alert-success alert-dismissible">
-                                <button type="button" data-dismiss="alert" class="close"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>{{message}}
-                              </div>
-                            </li>
-                        {% endfor %}
-                        </ul>
-                        {% endif %}
 
-                      </p>
+                      <p id="connt" class="text-center">
+                    <div class="here">
+                      {% if messages %}
+                      <ul class="messages">
+                          {% for message in messages %}
+                          <li>
+                            <div role="alert" class="alert alert-success alert-dismissible">
+                              <button type="button" data-dismiss="alert" class="close"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>{{message}}
+                            </div>
+                          </li>
+                      {% endfor %}
+                      </ul>
+                      {% endif %}
+                    </div>
+                           
+                   </p>
+
                       <p class="text-center">
                         
-                        <a  class="btn btn-template-outlined" href="{% url 'shop:add_product' id=products.id %}"><i class="fa fa-shopping-cart"></i> Add to cart</a>
+                        <a id="added" class="btn btn-template-outlined" href="{% url 'shop:add_product' id=products.id %}"><i class="fa fa-shopping-cart"></i> Add to cart</a>
                         {% if products in wishlist.item.all %}
                         <a  class="btn btn-default" href="{% url 'shop:remove_wishlist' id=products.id %}"><i class="fa fa-heart"></i></a>
                         {% else %}
@@ -242,6 +246,32 @@
     </div>
     
   </body>
- 
- 
+  <script 
+  src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <!-- <script type="text/javascript">
+
+$("#added").click(function(e){
+  e.preventDefault();
+    $.ajax({url: "{% url 'shop:add_product' id=products.id %}",
+    success: function(){
+  $("#connt").load("#connt >.here");
+    }});
+  });
+function appendToUsrTable() {
+$("#connt").append(`
+<ul class="messages">
+  {% for i in messages %}
+  
+  <li>
+    <div role="alert" class="alert alert-success alert-dismissible">
+      <button type="button" data-dismiss="alert" class="close"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+    {{i}}
+    </div>
+  </li>
+{% endfor %}
+</ul>
+`);
+    }
+  </script> -->
   {% endblock %}
