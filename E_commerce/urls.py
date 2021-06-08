@@ -26,13 +26,13 @@ from django.utils.translation import gettext_lazy as _
 
 urlpatterns =[
     path('admin/', admin.site.urls),
-    # re_path("",include("shop.urls",namespace="shop")),   
+    path("",include("shop.urls",namespace="shop")),   
     path('accounts/', include('allauth.urls')),
 ]
 
-urlpatterns += i18n_patterns(    
-    re_path("",include("shop.urls",namespace="shop")),
-)
+# urlpatterns += i18n_patterns(    
+#     re_path("",include("shop.urls",namespace="shop")),
+# )
 
 
 if settings.DEBUG:
